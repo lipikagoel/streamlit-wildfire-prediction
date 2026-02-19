@@ -6,6 +6,7 @@ st.info('This is an app which if you input certain characteristics of weather, p
 
 with st.sidebar:
   st.header('Input features')
-  location = st.selectbox
-  date = st.date_input(value, format = "MM.DD.YYYY")
+  #
+  date = st.date_input("Select Date", value=date.today(), format = "MM.DD.YYYY")
+  
   
