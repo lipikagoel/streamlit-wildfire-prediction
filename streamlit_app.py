@@ -7,6 +7,6 @@ st.info('This is an app which if you input certain characteristics of weather, p
 with st.sidebar:
   st.header('Input features')
   #
-  date = st.date_input("Select Date", value=date.today(), format = "MM.DD.YYYY")
+  date = st.date_input("Enter the Date:", min_value=date(2020, 1, 1), max_value=date(2025, 12, 31))
   
   
