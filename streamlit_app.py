@@ -1,5 +1,5 @@
 import streamlit as st
-import datetime as date
+from datetime import date
 
 
 st.title('California Wildfire Prediction App')
