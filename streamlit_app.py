@@ -3,7 +3,7 @@ import plotly.express as px
 import requests
 import streamlit as st
 
-API_URL = "https://app-wildfire-prediction-gvp5tpcymq2uae4qndccr9.streamlit.app/"
+API_URL = "http://localhost:8000/predict"
 
 MONTH_NAMES = {
     1: "January",
