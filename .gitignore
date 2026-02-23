@@ -1,0 +1,9 @@
+venv/
+env/
+.venv/
+stwpredvenv
+
+.DS_Store
+
+.vscode/
+*.code-workspace
