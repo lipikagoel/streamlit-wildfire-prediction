@@ -1,5 +1,7 @@
 import streamlit as st
-from datetime import date
+import requests
+import plotly.request as px
+import pandas as pd
 
 
 st.title('California Wildfire Prediction App')
