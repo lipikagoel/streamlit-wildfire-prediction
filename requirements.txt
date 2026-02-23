@@ -1,6 +1,6 @@
-streamlit
+fastapi
+uvicorn
+scikit-learn
+joblib
 numpy
 pandas
-scikit-learn
-matplotlib
-datetime
