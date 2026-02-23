@@ -86,9 +86,7 @@ if st.button("Predict Risk", type="primary"):
             ):
                 counties_at_risk = df[df["risk"] == risk]["county"].tolist()
                 with col:
-                    st.markdown(
-                        f"**:{color.replace('#', '')} {risk} Risk ({len(counties_at_risk)} counties)**"
-                    )
+                    st.markdown(f"**{risk} Risk ({len(counties_at_risk)} counties)**")
                     st.markdown(
                         ", ".join(sorted(counties_at_risk))
                         if counties_at_risk
