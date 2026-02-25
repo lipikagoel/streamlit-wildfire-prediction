@@ -13,4 +13,6 @@ the associated RCF model as well as the requisite PKL files needed for the model
 
 Let me know within the next couple days how far you get and feel free to delete this block of comments once you are
 done
+
+Also for you to be able to deploy the app itself feel free to fork the repository and test it out on your own.
 """
