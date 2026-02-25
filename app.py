@@ -1,109 +1,63 @@
+import joblib
 import pandas as pd
-import plotly.express as px
-import requests
 import streamlit as st
 
-API_URL = "http://localhost:8000/predict"
+st.set_page_config(page_title="CA Wildfire Risk Predictor", layout="wide")
 
-MONTH_NAMES = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December",
-}
 
-RISK_COLORS = {"Low": "#2ecc71", "Medium": "#f39c12", "High": "#e74c3c"}
+@st.cache_resource
+def load_assets():
+    model = joblib.load("wildfire_model.pkl")
+    encoder = joblib.load("fuel_encoder.pkl")
+    features = joblib.load("feature_names.pkl")
+    return model, encoder, features
 
-st.set_page_config(page_title="California Wildfire Risk", layout="wide")
 
-st.title("California Wildfire Risk Predictor")
+model, le, feature_names = load_assets()
+
+st.title("California Wildfire Prediction Dashboard")
 st.markdown(
-    "Select a month to see predicted wildfire risk levels across all 58 California counties."
+    "Enter environmental parameters to assess the probability of a wildfire event."
 )
 
-# Month selector
-selected_month = st.selectbox(
-    "Select Month",
-    options=list(MONTH_NAMES.keys()),
-    format_func=lambda x: MONTH_NAMES[x],
-    index=6,  # Default to July (high risk season)
-)
+with st.sidebar:
+    st.header("Input Parameters")
 
-if st.button("Predict Risk", type="primary"):
-    with st.spinner(f"Getting predictions for {MONTH_NAMES[selected_month]}..."):
-        try:
-            response = requests.post(
-                API_URL, json={"month": selected_month}, timeout=10
-            )
-            response.raise_for_status()
-            data = response.json()
+    lat = st.number_input("Latitude (32.5 - 42.0)", value=37.8)
+    lon = st.number_input("Longitude (-124.4 - -114.1)", value=-122.4)
+    hour = st.slider("Hour of Day (UTC)", 0, 23, 12)
 
-            df = pd.DataFrame(data["predictions"])
+    temp = st.slider("Avg Temperature (°C)", -10.0, 50.0, 25.0)
+    precip = st.number_input("Precipitation (mm)", 0.0, 100.0, 0.0)
+    wind = st.slider("Wind Speed (m/s)", 0.0, 40.0, 5.0)
 
-            risk_order = {"Low": 0, "Medium": 1, "High": 2}
-            df["risk_numeric"] = df["risk"].map(lambda x: risk_order.get(x))
+    st.subheader("Land Characteristics")
+    veg_cover = st.slider("Vegetation Cover (%)", 0, 100, 50)
+    veg_height = st.slider("Vegetation Height (cm)", 0, 1000, 100)
+    fuel_type = st.selectbox("Fuel Type", le.classes_)
 
-            fig = px.choropleth(
-                df,
-                geojson="https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
-                locations="fips",
-                color="risk",
-                color_discrete_map=RISK_COLORS,
-                category_orders={"risk": ["Low", "Medium", "High"]},
-                scope="usa",
-                hover_name="county",
-                hover_data={"fips": False, "risk": True},
-                title=f"Wildfire Risk Predictions — {MONTH_NAMES[selected_month]}",
-                labels={"risk": "Risk Level"},
-            )
+if st.button("Predict Wildfire Risk"):
+    fuel_encoded = le.transform([fuel_type])[0]
 
-            fig.update_geos(fitbounds="locations", visible=False)
+    input_data = pd.DataFrame(
+        [[lat, lon, hour, temp, precip, wind, veg_cover, veg_height, fuel_encoded]],
+        columns=feature_names,
+    )
 
-            fig.update_layout(
-                margin={"r": 0, "t": 40, "l": 0, "b": 0},
-                height=600,
-                legend_title_text="Risk Level",
-            )
+    prediction = model.predict(input_data)[0]
+    prob = model.predict_proba(input_data)[0][1]
 
-            st.plotly_chart(fig, use_container_width=True)
+    st.divider()
+    col1, col2 = st.columns(2)
 
-            # --- Summary stats below the map ---
-            st.markdown("### County Breakdown")
-            col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Fire Risk Probability", f"{prob * 100:.1f}%")
+        if prob > 0.7:
+            st.error("⚠️ CRITICAL RISK LEVEL")
+        elif prob > 0.4:
+            st.warning("🟠 MODERATE RISK LEVEL")
+        else:
+            st.success("🟢 LOW RISK LEVEL")
 
-            for risk, color, col in zip(
-                ["High", "Medium", "Low"],
-                ["#e74c3c", "#f39c12", "#2ecc71"],
-                [col1, col2, col3],
-            ):
-                counties_at_risk = df[df["risk"] == risk]["county"].tolist()
-                with col:
-                    st.markdown(f"**{risk} Risk ({len(counties_at_risk)} counties)**")
-                    st.markdown(
-                        ", ".join(sorted(counties_at_risk))
-                        if counties_at_risk
-                        else "None"
-                    )
-
-        except requests.exceptions.ConnectionError:
-            st.error(
-                "Could not connect to the prediction API. Make sure the FastAPI server is running at "
-                + API_URL
-            )
-        except requests.exceptions.HTTPError as e:
-            st.error(f"API error: {e}")
-        except Exception as e:
-            st.error(f"Something went wrong: {e}")
-
-st.markdown("---")
-st.caption(
-    "Proof of concept — predictions based on synthetic historical data. Real model coming soon."
-)
+    with col2:
+        st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}))
