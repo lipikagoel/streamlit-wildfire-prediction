@@ -18,6 +18,7 @@ Also for you to be able to deploy the app itself feel free to fork the repositor
 """
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
@@ -44,8 +45,6 @@ with st.sidebar:
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     #st.button("Apply Filters")
 
-st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]})) # 
-
 data = {
     "Latitude": [latitude],
     "Longitude": [longitude],
@@ -63,3 +62,15 @@ df = pd.DataFrame(data)
 df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
+
+st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}))
+
+# setting up the logic for whats supposed to happen with the button press
+'''
+if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
+'''
+if st.button:
+    lats = np.linspace(32.5, 42.0)
+    longs = np.linspace(-124.4, -114.1)
+    grid_points = [(lats,longs) for lat in lats for lon in longs]
+    
