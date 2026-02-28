@@ -29,13 +29,13 @@ st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 with st.sidebar:
     st.title("Risk Factors") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
-    latitude = st.slider("Latitude", 32.5, 42.0,{:.2f}) # slider selection
-    longitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
+    latitude = st.slider("Latitude", 32.5, 42.0,format:.2f) # slider selection
+    longitude = st.slider("Longitutde", -124.4, 114.1,format:.2f) # slider selection
     acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
     st.markdown("---")
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
-    wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
-    wx_wspd_ms= st.number_input("Wind Speed (m/s)")
+    wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)",format:.2f)
+    wx_wspd_ms= st.number_input("Wind Speed (m/s)",format:.2f)
     st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
