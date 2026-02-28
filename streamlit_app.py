@@ -143,7 +143,7 @@ df = df.rename(index = {0: "Values:"})
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 # MAP SECTION
-point_df = pd.DataFrame({"lat": [lat], "lon": [lon]})
+point_df = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
 view_state = pdk.ViewState(
     latitude=latitude,
     longitude=longitude,
