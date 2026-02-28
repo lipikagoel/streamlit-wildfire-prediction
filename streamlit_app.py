@@ -28,16 +28,16 @@ st.markdown("Data from: `...`.")
 ## SIDEBAR
 with st.sidebar:
     st.title("Risk Factors") # sidebar title
-    fire = st.selectbox("Fire:",["A","B","C"]) # dropdown selection
-    latitude = st.slider("Latitude", -90, 90) # slider selection
-    latitude = st.slider("Longitutde", -90, 90) # slider selection
-    acq_hour = st.time_input("Acquired Hour:", "12:00")
+    #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
+    latitude = st.slider("Latitude", 32.5, 42.0) # slider selection
+    latitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
+    acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
     wx_wspd_ms= st.number_input("Wind Speed (m/s)")
-    lf_evc= st.number_input("Density of Vegetation")
-    lf_evh= st.selectbox("Amount of Vegetation", ["Low", "High"])
-    evt_fuel_n= st.selectbox("Fuel Identifier", ["Option 1", "Option 2"])
+    lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
+    lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
+    evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     st.markdown("---") # Add a horizontal rule
     st.button("Apply Filters")
 
