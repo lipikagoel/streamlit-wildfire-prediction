@@ -31,8 +31,8 @@ clicked = st.button("Predict Wildfire Risk")
 with st.sidebar:
     st.title("Adjust the Risk Factors Here:") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
-    latitude = st.slider("Latitude", 32.5, 42.0,34.06,step = 0.01, format="%.2f") # slider selection
-    longitude = st.slider("Longitutde", -124.4, 114.1,118.44,step = 0.01, format="%.2f") # slider selection
+    latitude = st.slider("Latitude", 32.5, 42.0,value=34.06,step = 0.01, format="%.2f") # slider selection
+    longitude = st.slider("Longitutde", -124.4, -114.1,value=118.44,step = 0.01, format="%.2f") # slider selection
     acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
     st.markdown("---")
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
