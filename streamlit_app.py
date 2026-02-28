@@ -19,7 +19,7 @@ with col_btn2:
     if st.button("Clear Values", type = "primary", use_container_width=True):
         st.rerun()
     
-st.subheader("Specific Location Risk Assessment")
+st.subheader("Specific Location Risk Assessment:")
 
 ## SIDEBAR
 with st.sidebar:
@@ -82,7 +82,7 @@ df = df2.rename(index = {0: "Values:"})
 
 st.dataframe(df2.style.format("{:.2f}"), use_container_width=True)
 
-st.subheader("Overall State Risk Assessment")
+st.subheader("Overall State Risk Assessment:")
 
 if st.button:
     with st.spinner("Processing..."):
