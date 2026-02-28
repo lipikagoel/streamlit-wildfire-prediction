@@ -99,7 +99,7 @@ with st.sidebar:
                       #key = "veg_cov_input")
     
     lf_evh= st.slider("Vegetation Height (cm)", 
-                      0, 1000, 100.
+                      0, 1000, 100,
                       key=f"hei_{v}")
                       #value = st.session_state.get("veg_hei_input", 100),
                       #key = "veg_hei_input")
