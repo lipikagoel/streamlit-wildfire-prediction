@@ -101,23 +101,15 @@ with st.sidebar:
     
     st.markdown("---")
     
-    map_style = st.selectbox("Map Style", ["Light", "Dark", "Road"], key=f"style_{v}")
-    
-    carto_styles = {
-        "Dark": "https://basemaps.cartocp.com/gl/dark-matter-gl-style/style.json",
-        "Light": "https://basemaps.cartocp.com/gl/positron-gl-style/style.json",
-        "Road": "https://basemaps.cartocp.com/gl/voyager-gl-style/style.json"
-    }
-    
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
 
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    clicked = st.button("Predict", type="primary", use_container_width=True)
+    clicked = st.button("Predict", type="primary", width="stretch")
 
 with col_btn2:
-    if st.button("Clear Values", use_container_width=True):
+    if st.button("Clear Values", width="stretch"):
         reset_all()
     
 st.subheader("Specific Location Risk Assessment:")
@@ -141,31 +133,6 @@ df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
-# MAP SECTION
-point_df = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
-view_state = pdk.ViewState(
-    latitude=latitude,
-    longitude=longitude,
-    zoom=6,
-    pitch=0
-)
-
-layer = pdk.Layer(
-    "ScatterplotLayer",
-    data=point_df,
-    get_position="[longitude, latitude]",
-    get_color="[255, 75, 75, 200]",
-    get_radius=15000,
-    pickable=True
-)
-
-# Render
-st.pydeck_chart(pdk.Deck(
-    map_style=carto_styles[map_style],
-    initial_view_state=view_state,
-    layers=[layer]
-))
-
 # setting up the logic for whats supposed to happen with the button press
 #if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
 # Creating a map so shows state-wide risk given certain conditions
@@ -187,11 +154,11 @@ df2 = pd.DataFrame(data2)
 
 df2 = df2.rename(index = {0: "Values:"})
 
-st.dataframe(df2.style.format("{:.2f}"), use_container_width=True)
+st.dataframe(df2.style.format("{:.2f}"), width="stretch")
 
 st.subheader("Overall State Risk Assessment:")
 
-if st.button("Generate Statewide Heatmap", use_container_width=True):
+if st.button("Generate Statewide Heatmap", width="stretch"):
     with st.spinner("Processing..."):
         lats = np.linspace(32.5, 42.0)
         longs = np.linspace(-124.4, -114.1)
