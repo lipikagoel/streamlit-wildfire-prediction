@@ -32,14 +32,16 @@ with st.sidebar:
     latitude = st.slider("Latitude", 32.5, 42.0) # slider selection
     longitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
     acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
+    st.markdown("---")
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
     wx_wspd_ms= st.number_input("Wind Speed (m/s)")
+    st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     st.markdown("---") # Add a horizontal rule
-    st.button("Apply Filters")
+    #st.button("Apply Filters")
 
 data = {
     "Lat": [latitude],
