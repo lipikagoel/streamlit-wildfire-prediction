@@ -58,12 +58,12 @@ with st.sidebar:
                           #value=st.session_state.get("lon_input",-118.4452),
                           #key = "lon_input") # changed these so that they only have 2 decimal points
     
-    acq_hour = st.slider("Acquired Hour:", 
+    '''acq_hour = st.slider("Acquired Hour:", 
                          0, 23, 12,
                          key=f"hour_{v}"
                          )
                          #value = st.session_state.get("hour_input", 12), 
-                         #key = "hour_input")
+                         #key = "hour_input")'''
     
     st.markdown("---")
     
@@ -127,7 +127,7 @@ st.subheader("Specific Location Risk Assessment:")
 data = {
     "Latitude": [latitude],
     "Longitude": [longitude],
-    "Hour in Day" : [acq_hour],
+    #"Hour in Day" : [acq_hour],
     "Avg Daily Temp (C)" : [wx_tavg_c],
     "Total Daily Prec (mL)" : [wx_prcp_mm],
     "Wind Speed (m/s)" : [wx_wspd_ms],
@@ -153,7 +153,7 @@ st.markdown("---")
 # Second Dataframe Setup
 
 data2 = {
-    "Hour in Day" : [acq_hour],
+    #"Hour in Day" : [acq_hour],
     "Avg Daily Temp (C)" : [wx_tavg_c],
     "Total Daily Prec (mL)" : [wx_prcp_mm],
     "Wind Speed (m/s)" : [wx_wspd_ms],
@@ -176,7 +176,7 @@ if st.button("Generate Statewide Heatmap", width="stretch"):
         grid_points = [{"latitude": la, "longitude": lo} for la in lats for lo in longs]
         grid_df = pd.DataFrame(grid_points)
     
-        grid_df[acq_hour] = acq_hour
+        #grid_df[acq_hour] = acq_hour
         grid_df[wx_tavg_c] = wx_tavg_c
         grid_df[wx_prcp_mm] = wx_prcp_mm
         grid_df[wx_wspd_ms] = wx_wspd_ms
