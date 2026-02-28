@@ -55,17 +55,7 @@ data = {
 }
 
 df = pd.DataFrame(data)
-df = df.rename(index = {0: "Values:"})
 
-df_bold = df.rename(columns={
-    "Latitude": st.write("**Latitude**"),
-    "Longitude": "**Longitude**",
-    "Hour in Day" : "**Hour**",
-    "Avg Daily Temp (C)" : "**Avg Daily Temp (C)**",
-    "Total Daily Prec (mL)" : "**Total Daily Prec (mL)**",
-    "Wind Speed (m/s)" : "**Wind Speed (m/s)**",
-    "Veg Cover (%)" : "**Veg Cover**",
-    "Veg Height (cm)" : "**Veg Height**",
-})
+df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df_bold, df.style.format("{:.2f}"), use_container_width=True) # for the table
