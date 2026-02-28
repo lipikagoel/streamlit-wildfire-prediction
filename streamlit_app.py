@@ -103,7 +103,6 @@ with st.sidebar:
     
     map_style = st.selectbox("Map Style", ["Light", "Dark", "Road"], key=f"style_{v}")
     
-    map_theme = st.selectbox("Map Theme", ["Dark", "Light", "Road"], key=f"theme_{v}")
     carto_styles = {
         "Dark": "https://basemaps.cartocp.com/gl/dark-matter-gl-style/style.json",
         "Light": "https://basemaps.cartocp.com/gl/positron-gl-style/style.json",
