@@ -67,13 +67,13 @@ with st.sidebar:
     
     st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 
-                      0, 100, 50, 
-                      value = st.session_state.get("veg_cov_input", 0),
+                      0, 100, 
+                      value = st.session_state.get("veg_cov_input", 50),
                       key = "veg_cov_input")
     
     lf_evh= st.slider("Vegetation Height (cm)", 
-                      0, 1000, 100, 
-                      value = st.session_state.get("veg_hei_input", 0),
+                      0, 1000, 
+                      value = st.session_state.get("veg_hei_input", 100),
                       key = "veg_hei_input")
     
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
