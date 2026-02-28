@@ -16,7 +16,7 @@ with col_btn1:
     clicked = st.button("Predict", use_container_width = "True")
 
 with col_btn2:
-    if st.button("Clear Values", type = primary, use_container_width=True):
+    if st.button("Clear Values", type = "primary", use_container_width=True):
         st.rerun()
     
 st.subheader("Specific Location Risk Assessment")
