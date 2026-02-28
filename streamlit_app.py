@@ -42,7 +42,7 @@ with st.sidebar:
                           key = "lon_input") # changed these so that they only have 2 decimal points
     
     acq_hour = st.slider("Acquired Hour:", 
-                         0, 23, 12, 
+                         0, 23, 
                          value = st.session_state.get("hour_input", 12), 
                          key = "hour_input")
     
