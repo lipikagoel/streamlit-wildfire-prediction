@@ -20,7 +20,7 @@ import streamlit as st
 import pandas as pd
 
 ## PAGE SETUP
-st.set_page_config(page_title="TEST California Cities Map")
+st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 
@@ -54,5 +54,6 @@ data = {
 }
 
 df = pd.DataFrame(data)
+df = df.rename(index = {0: "Values:"})
 st.table(df)
 
