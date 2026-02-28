@@ -7,6 +7,15 @@ import pydeck as pdk
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.title("California Wildfire Prediction", anchor = "main title")
 
+if "version" not in st.session_state:
+    st.session_state.version = 0
+
+def reset_all():
+    st.session_state.version += 1
+    st.rerun()
+
+v = st.session_state.version
+
 url1 = "https://data.ca.gov/dataset/climate-land-cover-landfire-derived"
 url2 = "https://meteostat.net/en/"
 url3 = "https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3.0z"
@@ -31,14 +40,16 @@ with st.sidebar:
     latitude = st.slider("Latitude", 
                          32.5, 42.0,
                          34.0689,
-                         step = 0.01, 
-                         format="%.2f") 
+                         step = 0.01,
+                         key=f"lat_{v}",
+                         format="%.2f" 
                          #value=st.session_state.get("lat_input",34.0689),
-                         #key = "lat_input") # changed these so that they only have 2 decimal points
+                         ) # changed these so that they only have 2 decimal points
     
     longitude = st.slider("Longitutde", 
                           -124.4, -114.1,
                           -118.4452,
+                          key=f"lon_{v}",
                           step = 0.01, 
                           format="%.2f") 
                           #value=st.session_state.get("lon_input",-118.4452),
@@ -46,6 +57,7 @@ with st.sidebar:
     
     acq_hour = st.slider("Acquired Hour:", 
                          0, 23,
+                         key=f"hour_{v}",
                          12)
                          #value = st.session_state.get("hour_input", 12), 
                          #key = "hour_input")
@@ -54,6 +66,7 @@ with st.sidebar:
     
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", 
                                 0,
+                                key=f"temp_{v}",
                                 step=1, 
                                 format="%d", 
                                 )
@@ -62,6 +75,7 @@ with st.sidebar:
     
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mm)",
                                 0.0,
+                                key=f"prec_{v}",
                                 step = 0.01, 
                                 format="%.2f"
                                )
@@ -70,6 +84,7 @@ with st.sidebar:
     
     wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
                                 0.0,
+                                key=f"wind_{v}",
                                 step = 0.01, 
                                 format="%.2f",
                                 )
@@ -79,19 +94,22 @@ with st.sidebar:
     st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 
                       0, 100,
+                      key=f"cov_{v}",
                       50)
                       #value = st.session_state.get("veg_cov_input", 50),
                       #key = "veg_cov_input")
     
     lf_evh= st.slider("Vegetation Height (cm)", 
                       0, 1000,
+                      key=f"hei_{v}",
                       100)
                       #value = st.session_state.get("veg_hei_input", 100),
                       #key = "veg_hei_input")
 
+    
     st.markdown("---")
     
-    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"])
+    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"], key=f"style_{v}")
     
     styles = {
         "Light": "mapbox://styles/mapbox/light-v9",
@@ -105,11 +123,11 @@ with st.sidebar:
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    clicked = st.button("Predict", type = "primary", use_container_width = "True")
+    clicked = st.button("Predict", type="primary", use_container_width=True)
 
 with col_btn2:
     if st.button("Clear Values", use_container_width=True):
-        st.rerun()
+        reset_all()
     
 st.subheader("Specific Location Risk Assessment:")
 
@@ -132,23 +150,23 @@ df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
 
+map_data = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
+
 view_state = pdk.ViewState(
     latitude=latitude,
     longitude=longitude,
-    zoom=5.5,  # Lower number = more zoomed out
+    zoom=5.5,
     pitch=0
 )
 
-# Creating a high-visibility point for the selected coordinates
 layer = pdk.Layer(
     "ScatterplotLayer",
-    data=pd.DataFrame({"lat": [latitude], "lon": [longitude]}),
+    data=map_data,
     get_position="[lon, lat]",
-    get_color="[255, 75, 75, 200]", # The Streamlit Pink (#FF4B4B)
-    get_radius=15000, # 15km radius makes the dot visible even when zoomed out
+    get_color="[255, 75, 75, 200]",
+    get_radius=15000,
 )
 
-# Render the Map
 st.pydeck_chart(pdk.Deck(
     map_style=styles[map_style],
     initial_view_state=view_state,
