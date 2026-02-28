@@ -17,13 +17,6 @@ st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % 
 
 st.markdown("---")
 
-col_btn1, col_btn2 = st.columns([1, 1])
-
-def resest():
-    for key in st.session_state.keys():
-        def st.session_state[key]
-    st.rerun()
-
 ## SIDEBAR
 with st.sidebar:
     st.title("Adjust the Risk Factors:") # sidebar title
@@ -40,6 +33,8 @@ with st.sidebar:
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100, key = "veg_hei_input")
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     #st.button("Apply Filters")
+
+col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
     clicked = st.button("Predict", use_container_width = "True")
