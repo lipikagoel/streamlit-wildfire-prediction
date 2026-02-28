@@ -150,8 +150,8 @@ st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 # MAP SECTION
 view_state = pdk.ViewState(
-    latitude=lat,
-    longitude=lon,
+    latitude=latitdue,
+    longitude=longitude,
     zoom=6,
     pitch=0
 )
