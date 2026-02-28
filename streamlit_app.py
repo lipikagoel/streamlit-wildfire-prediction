@@ -85,7 +85,7 @@ df2 = pd.DataFrame(data2)
 
 df = df.rename(index = {0: "Values:"})
 
-st.dataframe(df.style.format("{:.2f}"), use_container_width=True)
+st.dataframe(df2.style.format("{:.2f}"), use_container_width=True)
 
 st.subheader("Overall State Risk Assessment")
 
