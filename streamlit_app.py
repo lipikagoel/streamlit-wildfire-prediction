@@ -25,7 +25,6 @@ st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 
 clicked = st.button("Predict Wildfire Risk")
-st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}))
     
 
 ## SIDEBAR
@@ -44,6 +43,8 @@ with st.sidebar:
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     #st.button("Apply Filters")
+
+st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]})) # 
 
 data = {
     "Latitude": [latitude],
