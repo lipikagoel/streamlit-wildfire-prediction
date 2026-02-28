@@ -19,31 +19,36 @@ st.markdown("---")
 
 col_btn1, col_btn2 = st.columns([1, 1])
 
-with col_btn1:
-    clicked = st.button("Predict", use_container_width = "True")
-
-with col_btn2:
-    if st.button("Clear Values", type = "primary", use_container_width=True):
-        st.rerun()
-    
-st.subheader("Specific Location Risk Assessment:")
+def resest():
+    for key in st.session_state.keys():
+        def st.session_state[key]
+    st.rerun()
 
 ## SIDEBAR
 with st.sidebar:
     st.title("Adjust the Risk Factors:") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
-    latitude = st.slider("Latitude", 32.5, 42.0,value=34.0689,step = 0.01, format="%.2f") # changed these so that they only have 2 decimal points
-    longitude = st.slider("Longitutde", -124.4, -114.1,value=-118.4452,step = 0.01, format="%.2f") # changed these so that they only have 2 decimal points
-    acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
+    latitude = st.slider("Latitude", 32.5, 42.0,value=34.0689,step = 0.01, format="%.2f", key = "lat_input") # changed these so that they only have 2 decimal points
+    longitude = st.slider("Longitutde", -124.4, -114.1,value=-118.4452,step = 0.01, format="%.2f" key = "lon_input") # changed these so that they only have 2 decimal points
+    acq_hour = st.slider("Acquired Hour:", 0, 23, 12, key = "hour_input")
     st.markdown("---")
-    wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
-    wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)",step = 0.01, format="%.2f") # changed these so that they only have 2 decimal points
-    wx_wspd_ms= st.number_input("Wind Speed (m/s)",step = 0.01, format="%.2f") # changed these so that they only have 2 decimal points
+    wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d", key = "temp_input")
+    wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)",step = 0.01, format="%.2f", key = "prec_input") # changed these so that they only have 2 decimal points
+    wx_wspd_ms= st.number_input("Wind Speed (m/s)",step = 0.01, format="%.2f", key = "wind_input") # changed these so that they only have 2 decimal points
     st.markdown("---")
-    lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
-    lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
+    lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50, key = "veg_cov_input")
+    lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100, key = "veg_hei_input")
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     #st.button("Apply Filters")
+
+with col_btn1:
+    clicked = st.button("Predict", use_container_width = "True")
+
+with col_btn2:
+    if st.button("Clear Values", type = "primary", use_container_width=True):
+        reset()
+    
+st.subheader("Specific Location Risk Assessment:")
 
 # DataFrame Setup
 data = {
