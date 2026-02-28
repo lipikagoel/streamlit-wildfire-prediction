@@ -17,12 +17,10 @@ st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % 
 
 st.markdown("---")
 
-'''
-def reset():
-    for key in st.session_state.keys():
-        del st.session_state[key]
-    st.rerun()
-'''
+#def reset():
+    #for key in st.session_state.keys():
+        #del st.session_state[key]
+    #st.rerun()
 
 ## SIDEBAR
 with st.sidebar:
