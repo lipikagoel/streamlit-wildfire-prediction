@@ -87,14 +87,8 @@ if st.button:
         grid_df[wx_wspd_ms] = wx_wspd_ms
         grid_df[lf_evc] = lf_evc
         grid_df[lf_evh] = lf_evh
-    
-        grid_df = grid_df[feature_names]
-        probabilities = model.predict_proba(grid_df)[:, 1]
-    
-        grid_df['risk score'] = probabilities
-    
-        high_risk_map = grid_df[grid_df['risk_score'] > 0.5]
-    
-        st.map(high_risk_map)
+
+        # Now still waiting for model once it is trained we can add the final part to this code
+        # this parts goal is that taking the same model use it to predict overall state risk and create a map
         
         
