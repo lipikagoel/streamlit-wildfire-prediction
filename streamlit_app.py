@@ -107,13 +107,13 @@ with st.sidebar:
     
     st.markdown("---")
     
-    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"], key=f"style_{v}")
+    map_style = st.selectbox("Map Style", ["Light", "Dark", "Road"], key=f"style_{v}")
     
-    styles = {
-        "Light": "mapbox://styles/mapbox/light-v9",
-        "Dark": "mapbox://styles/mapbox/dark-v9",
-        "Satellite": "mapbox://styles/mapbox/satellite-v9",
-        "Road": "mapbox://styles/mapbox/streets-v11"
+    map_theme = st.selectbox("Map Theme", ["Dark", "Light", "Road"], key=f"theme_{v}")
+    carto_styles = {
+        "Dark": "https://basemaps.cartocp.com/gl/dark-matter-gl-style/style.json",
+        "Light": "https://basemaps.cartocp.com/gl/positron-gl-style/style.json",
+        "Road": "https://basemaps.cartocp.com/gl/voyager-gl-style/style.json"
     }
     
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
@@ -149,33 +149,27 @@ df = df.rename(index = {0: "Values:"})
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 # MAP SECTION
-map_data = pd.DataFrame({
-    "Longitude": [float(longitude)], 
-    "Latitude": [float(latitude)]
-})
-
 view_state = pdk.ViewState(
-    latitude=float(latitude),
-    longitude=float(longitude),
+    latitude=lat,
+    longitude=lon,
     zoom=6,
     pitch=0
 )
 
 layer = pdk.Layer(
     "ScatterplotLayer",
-    data=map_data,
-    get_position="[lon, lat]",
-    get_color="[255, 75, 75, 200]", 
-    get_radius=10000,           # 10km radius
-    radius_min_pixels=10,       # Guarantees it doesn't shrink to nothing
-    pickable=True,
+    data=point_df,
+    get_position="[longitude, latitude]",
+    get_color="[255, 75, 75, 200]",
+    get_radius=15000,
+    pickable=True
 )
 
+# Render
 st.pydeck_chart(pdk.Deck(
-    map_style=styles[map_style],
+    map_style=carto_styles[map_theme],
     initial_view_state=view_state,
-    layers=[layer],
-    tooltip={"text": "Selected Location\nLat: {lat}\nLon: {lon}"}
+    layers=[layer]
 ))
 
 # setting up the logic for whats supposed to happen with the button press
