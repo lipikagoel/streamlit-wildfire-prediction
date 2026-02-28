@@ -23,7 +23,7 @@ import pandas as pd
 st.set_page_config(page_title="TEST California Cities Map")
 st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
-st.table(df)
+
 
 ## SIDEBAR
 with st.sidebar:
@@ -54,4 +54,5 @@ data = {
 }
 
 df = pd.Dataframe(data)
+st.table(df)
 
