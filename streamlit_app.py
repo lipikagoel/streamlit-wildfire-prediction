@@ -10,7 +10,7 @@ url1 = "https://data.ca.gov/dataset/climate-land-cover-landfire-derived"
 url2 = "https://meteostat.net/en/"
 url3 = "https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3.0z"
 
-st.write("Data from: Acquired from Meteostat [link](%s)" % url1, "NASA Firms", "LANDFIRE")
+st.write("Data from: Acquired from [California Landfire](%s)" % url1, "[Meteostat](%s)"url2, "[NASA FIRMS](%s)" url3)
 st.markdown("Predictions Made Through a Random Forest Classifier Model")
 
 
