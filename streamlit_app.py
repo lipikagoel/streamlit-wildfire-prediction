@@ -53,6 +53,6 @@ data = {
     # "Fuel Type" : [evt_fuel_n]
 }
 
-df = pd.Dataframe(data)
+df = pd.DataFrame(data)
 st.table(df)
 
