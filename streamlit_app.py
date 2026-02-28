@@ -6,6 +6,7 @@ import numpy as np
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
+st.markdown("Predictions Made Through a Random Forest Classifier Model")
 
 st.markdown("---")
 
