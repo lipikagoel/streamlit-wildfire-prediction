@@ -83,7 +83,7 @@ data2 = {
 
 df2 = pd.DataFrame(data2)
 
-df = df.rename(index = {0: "Values:"})
+df = df2.rename(index = {0: "Values:"})
 
 st.dataframe(df2.style.format("{:.2f}"), use_container_width=True)
 
@@ -94,6 +94,7 @@ if st.button:
         lats = np.linspace(32.5, 42.0)
         longs = np.linspace(-124.4, -114.1)
         grid_points = [(lats,longs) for lat in lats for lon in longs]
+        grid_df = pd.DataFrame(grid, columns=['latitude', 'longitude'])
     
         grid_df[acq_hour] = acq_hour
         grid_df[wx_tavg_c] = wx_tavg_c
