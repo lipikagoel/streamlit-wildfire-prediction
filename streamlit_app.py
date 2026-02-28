@@ -133,6 +133,8 @@ df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
+st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=6)
+
 # setting up the logic for whats supposed to happen with the button press
 #if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
 # Creating a map so shows state-wide risk given certain conditions
