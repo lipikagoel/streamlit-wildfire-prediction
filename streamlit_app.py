@@ -61,9 +61,9 @@ df_bold = df.rename(columns={
     "Latitude": "**Latitude**",
     "Longitude": "**Longitude**",
     "Hour in Day" : "**Hour in Day**",
-    "Average Daily Temp (C)" : "**Avg Daily Temp**",
-    "Total Daily Prec (mL)" : "**Total Daily Prec**",
-    "Wind Speed (m/s)" : "**Wind Speed**",
+    "Avg Daily Temp (C)" : "**Avg Daily Temp (C)**",
+    "Total Daily Prec (mL)" : "**Total Daily Prec (mL)**",
+    "Wind Speed (m/s)" : "**Wind Speed (m/s)**",
     "Veg Cover (%)" : "**Veg Cover**",
     "Veg Height (cm)" : "**Veg Height**",
 })
