@@ -56,13 +56,13 @@ with st.sidebar:
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mm)",
                                 step = 0.01, 
                                 format="%.2f", 
-                                value = st.session_state.get("prec_input", 0),
+                                value = st.session_state.get("prec_input", 0.0),
                                 key = "prec_input") # changed these so that they only have 2 decimal points
     
     wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
                                 step = 0.01, 
                                 format="%.2f", 
-                                value = st.session_state.get("wind_input", 0),
+                                value = st.session_state.get("wind_input", 0.0),
                                 key = "wind_input") # changed these so that they only have 2 decimal points
     
     st.markdown("---")
