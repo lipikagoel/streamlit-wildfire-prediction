@@ -37,7 +37,7 @@ with st.sidebar:
     wx_wspd_ms= st.number_input("Wind Speed (m/s)")
     lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
-    #evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
+    #evt_fuel_n= st.selectbox("Fuel Type", le.classes_) #this won't work until the joblib files are added to allow interaction with the model
     st.markdown("---") # Add a horizontal rule
     st.button("Apply Filters")
 
