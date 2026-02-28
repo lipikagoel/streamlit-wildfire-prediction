@@ -30,7 +30,7 @@ hayden = "https://github.com/hsamala688"
 
 st.write("National Student Data Corp @ UCLA, Winter 2026 Project")
 st.write(f"Data from: Acquired from [California Landfire]({url1}), [Meteostat]({url2}), [NASA FIRMS]({url3})")
-st.write(f"Predictions Made Through a [Random Forest Classifier Model]({url4})")
+st.write(f"Predictions Made Through a [Random Forest Classifier Model (RCF)]({url4})")
 st.write(f"Data Team: [Emiliano]({emiliano}), [Arjun]({arjun}), [Will]({will}) | RCF Team: [Aliya]({aliya}), [Joseph]({joseph}) | Streamlit Team: [Lipika]({lipika}), [Hayden]({hayden})")
 
 st.markdown("---")
