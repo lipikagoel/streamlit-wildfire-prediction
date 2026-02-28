@@ -41,11 +41,15 @@ with st.sidebar:
                           value=st.session_state.get("lon_input",-118.4452),
                           key = "lon_input") # changed these so that they only have 2 decimal points
     
-    acq_hour = st.slider("Acquired Hour:", 0, 23, 12, value = st.session_state.get("hour_input", 12), key = "hour_input")
+    acq_hour = st.slider("Acquired Hour:", 
+                         0, 23, 12, 
+                         value = st.session_state.get("hour_input", 12), 
+                         key = "hour_input")
     
     st.markdown("---")
     
-    wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d", 
+    wx_tavg_c = st.number_input("Average Daily Temperature (C)", 
+                                step=1, format="%d", 
                                 value = st.session_state.get("temp_input", 12), 
                                 key = "temp_input")
     
@@ -58,14 +62,17 @@ with st.sidebar:
     wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
                                 step = 0.01, 
                                 format="%.2f", 
+                                value = st.session_state.get("wind_input", 0),
                                 key = "wind_input") # changed these so that they only have 2 decimal points
     
     st.markdown("---")
-    lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50, 
+    lf_evc= st.slider("Vegetation Cover (%)", 
+                      0, 100, 50, 
                       value = st.session_state.get("veg_cov_input", 0),
                       key = "veg_cov_input")
     
-    lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100, 
+    lf_evh= st.slider("Vegetation Height (cm)", 
+                      0, 1000, 100, 
                       value = st.session_state.get("veg_hei_input", 0),
                       key = "veg_hei_input")
     
@@ -74,7 +81,7 @@ with st.sidebar:
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    clicked = st.button("Predict", type = "primary" use_container_width = "True")
+    clicked = st.button("Predict", type = "primary", use_container_width = "True")
 
 with col_btn2:
     if st.button("Clear Values", use_container_width=True):
