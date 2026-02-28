@@ -71,7 +71,7 @@ if the button Predict Wildfire Risk is pressed runs the joblib files, then for t
 '''
 # Creating a map so shows state-wide risk given certain conditions
 if st.button:
-    with st.spinner:
+    with st.spinner("Processing..."):
         lats = np.linspace(32.5, 42.0)
         longs = np.linspace(-124.4, -114.1)
         grid_points = [(lats,longs) for lat in lats for lon in longs]
