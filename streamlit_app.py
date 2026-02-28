@@ -72,6 +72,21 @@ st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}))
 
 st.markdown("---")
 
+data2 = {
+    "Hour in Day" : [acq_hour],
+    "Avg Daily Temp (C)" : [wx_tavg_c],
+    "Total Daily Prec (mL)" : [wx_prcp_mm],
+    "Wind Speed (m/s)" : [wx_wspd_ms],
+    "Veg Cover (%)" : [lf_evc],
+    "Veg Height (cm)" : [lf_evh],
+}
+
+df2 = pd.DataFrame(data2)
+
+df = df.rename(index = {0: "Values:"})
+
+st.dataframe(df.style.format("{:.2f}"), use_container_width=True)
+
 st.subheader("Overall State Risk Assessment")
 
 if st.button:
