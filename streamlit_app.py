@@ -17,7 +17,7 @@ done
 Also for you to be able to deploy the app itself feel free to fork the repository and test it out on your own.
 """
 import streamlit as st
-import datetime
+import pandas as pd
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map")
@@ -29,7 +29,7 @@ with st.sidebar:
     st.title("Risk Factors") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
     latitude = st.slider("Latitude", 32.5, 42.0) # slider selection
-    latitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
+    longitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
     acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
@@ -39,3 +39,18 @@ with st.sidebar:
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
     st.markdown("---") # Add a horizontal rule
     st.button("Apply Filters")
+
+data = {
+    "Latitude": [latitude],
+    "Longitude": [longitude],
+    "Hour in Day" : [acq_hour],
+    "Average Daily Temperature (C)" : [wx_tavg_c],
+    "Total Daily Precipitation (mL)" : [wx_prcp_mm],
+    "Wind Speed (m/s)" : [wx_wspd_ms],
+    "Vegetation Cover (%)" : [lf_evc],
+    "Vegetation Height (cm)" : [lf_evh],
+    # "Fuel Type" : [evt_fuel_n]
+}
+
+df = pd.Dataframe(data)
+
