@@ -21,8 +21,9 @@ import pandas as pd
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map")
-st.subheader("California Wildfire Prediction")
-st.markdown("Data from: `...`.")
+st.header("California Wildfire Prediction")
+st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
+st.table(df)
 
 ## SIDEBAR
 with st.sidebar:
