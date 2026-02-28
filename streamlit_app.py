@@ -27,8 +27,9 @@ will = "https://github.com/wllamjp"
 arjun = "https://github.com/ArjunBrahmandam"
 lipika = "https://github.com/lipikagoel"
 
-st.write("Data from: Acquired from [California Landfire](%s)" % url1, ", [Meteostat](%s)" % url2, ", [NASA FIRMS](%s)" % url3)
-st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % url4)
+st.write("National Student Data Corp @ UCLA, Winter 2026 Project")
+st.write("Data from: Acquired from [California Landfire] ({url1}), [Meteostat] ({url2}) [NASA FIRMS] ({url3})")
+st.write("Predictions Made Through a [Random Forest Classifier Model] ({url4})")
 st.write(f"Data Team: [Emiliano]({emiliano}), [Arjun]({arjun}), [Will]({will}) | RCF Team: [Aliya]({aliya}), [Joseph]({joseph}) | Streamlit Team: [Lipika]({lipika}), Hayden")
 
 st.markdown("---")
