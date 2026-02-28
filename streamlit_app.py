@@ -24,13 +24,7 @@ url4 = "https://github.com/hsamala688/CaliforniaWildfirePrediction"
 st.write("Data from: Acquired from [California Landfire](%s)" % url1, ", [Meteostat](%s)" % url2, ", [NASA FIRMS](%s)" % url3)
 st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % url4)
 
-
 st.markdown("---")
-
-#def reset():
-    #for key in st.session_state.keys():
-        #del st.session_state[key]
-    #st.rerun()
 
 ## SIDEBAR
 with st.sidebar:
@@ -149,6 +143,7 @@ df = df.rename(index = {0: "Values:"})
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 # MAP SECTION
+point_df = pd.DataFrame({"lat": [lat], "lon": [lon]})
 view_state = pdk.ViewState(
     latitude=latitude,
     longitude=longitude,
