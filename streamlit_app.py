@@ -17,10 +17,12 @@ st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % 
 
 st.markdown("---")
 
+'''
 def reset():
     for key in st.session_state.keys():
         del st.session_state[key]
     st.rerun()
+'''
 
 ## SIDEBAR
 with st.sidebar:
@@ -29,52 +31,61 @@ with st.sidebar:
     
     latitude = st.slider("Latitude", 
                          32.5, 42.0,
+                         34.0689,
                          step = 0.01, 
                          format="%.2f", 
-                         value=st.session_state.get("lat_input",34.0689),
-                         key = "lat_input") # changed these so that they only have 2 decimal points
+                         #value=st.session_state.get("lat_input",34.0689),
+                         #key = "lat_input") # changed these so that they only have 2 decimal points
     
     longitude = st.slider("Longitutde", 
                           -124.4, -114.1,
+                          -118.4452,
                           step = 0.01, 
                           format="%.2f", 
-                          value=st.session_state.get("lon_input",-118.4452),
-                          key = "lon_input") # changed these so that they only have 2 decimal points
+                          #value=st.session_state.get("lon_input",-118.4452),
+                          #key = "lon_input") # changed these so that they only have 2 decimal points
     
     acq_hour = st.slider("Acquired Hour:", 
-                         0, 23, 
-                         value = st.session_state.get("hour_input", 12), 
-                         key = "hour_input")
+                         0, 23,
+                         12,
+                         #value = st.session_state.get("hour_input", 12), 
+                         #key = "hour_input")
     
     st.markdown("---")
     
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", 
-                                step=1, format="%d", 
-                                value = st.session_state.get("temp_input", 12), 
-                                key = "temp_input")
+                                step=1, 
+                                format="%d", 
+                                0,
+                                #value = st.session_state.get("temp_input", 12), 
+                                #key = "temp_input")
     
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mm)",
                                 step = 0.01, 
+                                0.0,
                                 format="%.2f", 
-                                value = st.session_state.get("prec_input", 0.0),
-                                key = "prec_input") # changed these so that they only have 2 decimal points
+                                #value = st.session_state.get("prec_input", 0.0),
+                                #key = "prec_input") # changed these so that they only have 2 decimal points
     
     wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
                                 step = 0.01, 
-                                format="%.2f", 
-                                value = st.session_state.get("wind_input", 0.0),
-                                key = "wind_input") # changed these so that they only have 2 decimal points
+                                format="%.2f",
+                                0.0,
+                                #value = st.session_state.get("wind_input", 0.0),
+                                #key = "wind_input") # changed these so that they only have 2 decimal points
     
     st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 
-                      0, 100, 
-                      value = st.session_state.get("veg_cov_input", 50),
-                      key = "veg_cov_input")
+                      0, 100,
+                      50,
+                      #value = st.session_state.get("veg_cov_input", 50),
+                      #key = "veg_cov_input")
     
     lf_evh= st.slider("Vegetation Height (cm)", 
-                      0, 1000, 
-                      value = st.session_state.get("veg_hei_input", 100),
-                      key = "veg_hei_input")
+                      0, 1000,
+                      100,
+                      #value = st.session_state.get("veg_hei_input", 100),
+                      #key = "veg_hei_input")
     
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
 
@@ -85,7 +96,7 @@ with col_btn1:
 
 with col_btn2:
     if st.button("Clear Values", use_container_width=True):
-        reset()
+        st.rerun()
     
 st.subheader("Specific Location Risk Assessment:")
 
