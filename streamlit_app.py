@@ -54,23 +54,26 @@ with st.sidebar:
     st.markdown("---")
     
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", 
+                                0,
                                 step=1, 
                                 format="%d", 
-                                0)
+                                )
                                 #value = st.session_state.get("temp_input", 12), 
                                 #key = "temp_input")
     
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mm)",
-                                step = 0.01, 
                                 0.0,
-                                format="%.2f", 
+                                step = 0.01, 
+                                format="%.2f"
+                               )
                                 #value = st.session_state.get("prec_input", 0.0),
                                 #key = "prec_input") # changed these so that they only have 2 decimal points
     
     wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
+                                0.0,
                                 step = 0.01, 
                                 format="%.2f",
-                                0.0)
+                                )
                                 #value = st.session_state.get("wind_input", 0.0),
                                 #key = "wind_input") # changed these so that they only have 2 decimal points
     
