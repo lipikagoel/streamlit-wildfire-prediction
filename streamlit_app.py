@@ -161,7 +161,7 @@ layer = pdk.Layer(
 
 # Render
 st.pydeck_chart(pdk.Deck(
-    map_style=carto_styles[map_theme],
+    map_style=carto_styles[map_style],
     initial_view_state=view_state,
     layers=[layer]
 ))
