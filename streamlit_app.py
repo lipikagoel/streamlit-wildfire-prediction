@@ -43,8 +43,8 @@ with st.sidebar:
     #st.button("Apply Filters")
 
 data = {
-    "Lat": [latitude],
-    "Lon": [longitude],
+    "Latitude": [latitude],
+    "Longitude": [longitude],
     "Hour in Day" : [acq_hour],
     "Average Daily Temperature (C)" : [wx_tavg_c],
     "Total Daily Precipitation (mL)" : [wx_prcp_mm],
