@@ -93,16 +93,14 @@ with st.sidebar:
     
     st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 
-                      0, 100,
-                      key=f"cov_{v}",
-                      50)
+                      0, 100, 50,
+                      key=f"cov_{v}")
                       #value = st.session_state.get("veg_cov_input", 50),
                       #key = "veg_cov_input")
     
     lf_evh= st.slider("Vegetation Height (cm)", 
-                      0, 1000,
-                      key=f"hei_{v}",
-                      100)
+                      0, 1000, 100.
+                      key=f"hei_{v}")
                       #value = st.session_state.get("veg_hei_input", 100),
                       #key = "veg_hei_input")
 
