@@ -26,7 +26,8 @@ st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 
 clicked = st.button("Predict Wildfire Risk")
-    
+
+st.subheader("Specific Location Risk Assessment")
 
 ## SIDEBAR
 with st.sidebar:
@@ -66,10 +67,13 @@ st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the tabl
 st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}))
 
 # setting up the logic for whats supposed to happen with the button press
-'''
-if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
-'''
+#if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
 # Creating a map so shows state-wide risk given certain conditions
+
+st.markdown("---")
+
+st.subheader("Overall State Risk Assessment")
+
 if st.button:
     with st.spinner("Processing..."):
         lats = np.linspace(32.5, 42.0)
