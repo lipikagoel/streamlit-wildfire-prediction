@@ -91,7 +91,7 @@ with st.sidebar:
 
     st.markdown("---")
     
-    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"]
+    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"])
     
     styles = {
         "Light": "mapbox://styles/mapbox/light-v9",
