@@ -146,7 +146,7 @@ df = pd.DataFrame(data)
 
 df = df.rename(index = {0: "Values:"})
 
-st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
+st.dataframe(df.style.format("{:.2f}"), width= stretch) # for the table
 
 map_data = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
 
@@ -201,8 +201,8 @@ if st.button("Generate Statewide Heatmap", use_container_width=True):
     with st.spinner("Processing..."):
         lats = np.linspace(32.5, 42.0)
         longs = np.linspace(-124.4, -114.1)
-        grid_points = [(lats,longs) for lat in lats for lon in longs]
-        grid_df = pd.DataFrame(grid_points, columns=['latitude', 'longitude'])
+        grid_points = [{"latitude": la, "longitude": lo} for la in lats for lo in longs]
+        grid_df = pd.DataFrame(grid_points)
     
         grid_df[acq_hour] = acq_hour
         grid_df[wx_tavg_c] = wx_tavg_c
