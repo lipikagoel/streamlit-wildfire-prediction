@@ -10,8 +10,15 @@ st.markdown("Predictions Made Through a Random Forest Classifier Model")
 
 st.markdown("---")
 
-clicked = st.button("Predict Wildfire Risk")
+col_btn1, col_btn2 = st.columns([1, 1])
 
+with col_btn1:
+    clicked = st.button("Predict Wildfire Risk", use_container_width = "True")
+
+with col_btn2:
+    if st.button("Clear Results", use_container_width=True):
+        st.rerun()
+    
 st.subheader("Specific Location Risk Assessment")
 
 ## SIDEBAR
