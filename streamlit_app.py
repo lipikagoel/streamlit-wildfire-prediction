@@ -94,7 +94,7 @@ if st.button:
         lats = np.linspace(32.5, 42.0)
         longs = np.linspace(-124.4, -114.1)
         grid_points = [(lats,longs) for lat in lats for lon in longs]
-        grid_df = pd.DataFrame(grid, columns=['latitude', 'longitude'])
+        grid_df = pd.DataFrame(grid_points, columns=['latitude', 'longitude'])
     
         grid_df[acq_hour] = acq_hour
         grid_df[wx_tavg_c] = wx_tavg_c
