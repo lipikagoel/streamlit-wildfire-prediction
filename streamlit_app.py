@@ -56,4 +56,4 @@ data = {
 
 df = pd.DataFrame(data)
 df = df.rename(index = {0: "Values:"})
-st.table(df.style.format("{:.2f}"))
+st.dataframe(df.style.format("{:.2f}"), use_container_width=True)
