@@ -148,12 +148,16 @@ df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
-map_data = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
+# MAP SECTION
+map_data = pd.DataFrame({
+    "lon": [float(longitude)], 
+    "lat": [float(latitude)]
+})
 
 view_state = pdk.ViewState(
-    latitude=latitude,
-    longitude=longitude,
-    zoom=5.5,
+    latitude=float(latitude),
+    longitude=float(longitude),
+    zoom=6,
     pitch=0
 )
 
@@ -161,8 +165,10 @@ layer = pdk.Layer(
     "ScatterplotLayer",
     data=map_data,
     get_position="[lon, lat]",
-    get_color="[255, 75, 75, 200]",
-    get_radius=15000,
+    get_color="[255, 75, 75, 200]", 
+    get_radius=10000,           # 10km radius
+    radius_min_pixels=10,       # Guarantees it doesn't shrink to nothing
+    pickable=True,
 )
 
 st.pydeck_chart(pdk.Deck(
