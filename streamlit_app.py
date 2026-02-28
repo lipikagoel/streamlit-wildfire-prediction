@@ -30,7 +30,7 @@ with st.sidebar:
     st.title("Risk Factors") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
     latitude = st.slider("Latitude", 32.5, 42.0) # slider selection
-    latitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
+    longitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
     acq_hour = st.slider("Time in the Day:", 0, 23, 12)
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
