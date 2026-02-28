@@ -24,6 +24,9 @@ st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.header("California Wildfire Prediction")
 st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 
+clicked = st.button("Predict Wildfire Risk")
+st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}))
+    
 
 ## SIDEBAR
 with st.sidebar:
@@ -58,4 +61,4 @@ df = pd.DataFrame(data)
 
 df = df.rename(index = {0: "Values:"})
 
-st.dataframe(df_bold, df.style.format("{:.2f}"), use_container_width=True) # for the table
+st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
