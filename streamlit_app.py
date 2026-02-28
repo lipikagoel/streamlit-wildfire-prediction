@@ -146,7 +146,7 @@ df = pd.DataFrame(data)
 
 df = df.rename(index = {0: "Values:"})
 
-st.dataframe(df.style.format("{:.2f}"), width= stretch) # for the table
+st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 map_data = pd.DataFrame({"lat": [latitude], "lon": [longitude]})
 
