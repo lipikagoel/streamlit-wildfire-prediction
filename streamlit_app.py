@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import pydeck as pdk
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
@@ -87,6 +88,17 @@ with st.sidebar:
                       100)
                       #value = st.session_state.get("veg_hei_input", 100),
                       #key = "veg_hei_input")
+
+    st.markdown("---")
+    
+    map_style = st.selectbox("Map Style", ["Light", "Dark", "Satellite", "Road"]
+    
+    styles = {
+        "Light": "mapbox://styles/mapbox/light-v9",
+        "Dark": "mapbox://styles/mapbox/dark-v9",
+        "Satellite": "mapbox://styles/mapbox/satellite-v9",
+        "Road": "mapbox://styles/mapbox/streets-v11"
+    }
     
     # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
 
@@ -120,7 +132,29 @@ df = df.rename(index = {0: "Values:"})
 
 st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
 
-st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}))
+view_state = pdk.ViewState(
+    latitude=latitude,
+    longitude=longitude,
+    zoom=5.5,  # Lower number = more zoomed out
+    pitch=0
+)
+
+# Creating a high-visibility point for the selected coordinates
+layer = pdk.Layer(
+    "ScatterplotLayer",
+    data=pd.DataFrame({"lat": [latitude], "lon": [longitude]}),
+    get_position="[lon, lat]",
+    get_color="[255, 75, 75, 200]", # The Streamlit Pink (#FF4B4B)
+    get_radius=15000, # 15km radius makes the dot visible even when zoomed out
+)
+
+# Render the Map
+st.pydeck_chart(pdk.Deck(
+    map_style=styles[map_style],
+    initial_view_state=view_state,
+    layers=[layer],
+    tooltip={"text": "Selected Location\nLat: {lat}\nLon: {lon}"}
+))
 
 # setting up the logic for whats supposed to happen with the button press
 #if the button Predict Wildfire Risk is pressed runs the joblib files, then for that specific point what is the risk. Can't do that without model
