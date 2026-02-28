@@ -150,8 +150,8 @@ st.dataframe(df.style.format("{:.2f}"), width = "stretch") # for the table
 
 # MAP SECTION
 map_data = pd.DataFrame({
-    "lon": [float(longitude)], 
-    "lat": [float(latitude)]
+    "Longitude": [float(longitude)], 
+    "Latitude": [float(latitude)]
 })
 
 view_state = pdk.ViewState(
