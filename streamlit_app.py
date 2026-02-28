@@ -12,7 +12,7 @@ url3 = "https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3.0z"
 url4 = "https://github.com/hsamala688/CaliforniaWildfirePrediction"
 
 st.write("Data from: Acquired from [California Landfire](%s)" % url1, ", [Meteostat](%s)" % url2, ", [NASA FIRMS](%s)" % url3)
-st.markdown("Predictions Made Through a [Random Forest Classifier Model]"(%s) % url4)
+st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % url4)
 
 
 st.markdown("---")
