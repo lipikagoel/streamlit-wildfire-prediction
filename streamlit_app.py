@@ -78,7 +78,7 @@ data2 = {
 
 df2 = pd.DataFrame(data2)
 
-df = df2.rename(index = {0: "Values:"})
+df2 = df2.rename(index = {0: "Values:"})
 
 st.dataframe(df2.style.format("{:.2f}"), use_container_width=True)
 
