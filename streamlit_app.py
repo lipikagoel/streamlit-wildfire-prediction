@@ -58,12 +58,12 @@ with st.sidebar:
                           #value=st.session_state.get("lon_input",-118.4452),
                           #key = "lon_input") # changed these so that they only have 2 decimal points
     
-    '''acq_hour = st.slider("Acquired Hour:", 
-                         0, 23, 12,
-                         key=f"hour_{v}"
-                         )
+    #acq_hour = st.slider("Acquired Hour:", 
+                         #0, 23, 12,
+                         #key=f"hour_{v}"
+                         #)
                          #value = st.session_state.get("hour_input", 12), 
-                         #key = "hour_input")'''
+                         #key = "hour_input")
     
     st.markdown("---")
     
