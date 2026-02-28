@@ -5,8 +5,14 @@ import numpy as np
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.title("California Wildfire Prediction", anchor = "main title")
-st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
+
+url1 = "https://data.ca.gov/dataset/climate-land-cover-landfire-derived"
+url2 = "https://meteostat.net/en/"
+url3 = "https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3.0z"
+
+st.write("Data from: Acquired from Meteostat [link](%s)" % url, NASA Firms, LANDFIRE")
 st.markdown("Predictions Made Through a Random Forest Classifier Model")
+
 
 st.markdown("---")
 
