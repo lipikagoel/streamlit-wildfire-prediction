@@ -27,7 +27,7 @@ st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
 
 ## SIDEBAR
 with st.sidebar:
-    st.title("Risk Factors") # sidebar title
+    st.title("Adjust the Risk Factors Here:") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
     latitude = st.slider("Latitude", 32.5, 42.0,step = 0.01, format="%.2f") # slider selection
     longitude = st.slider("Longitutde", -124.4, 114.1,step = 0.01, format="%.2f") # slider selection
@@ -46,14 +46,26 @@ data = {
     "Latitude": [latitude],
     "Longitude": [longitude],
     "Hour in Day" : [acq_hour],
-    "Average Daily Temperature (C)" : [wx_tavg_c],
-    "Total Daily Precipitation (mL)" : [wx_prcp_mm],
+    "Avg Daily Temp (C)" : [wx_tavg_c],
+    "Total Daily Prec (mL)" : [wx_prcp_mm],
     "Wind Speed (m/s)" : [wx_wspd_ms],
-    "Vegetation Cover (%)" : [lf_evc],
-    "Vegetation Height (cm)" : [lf_evh],
+    "Veg Cover (%)" : [lf_evc],
+    "Veg Height (cm)" : [lf_evh],
     # "Fuel Type" : [evt_fuel_n]
 }
 
 df = pd.DataFrame(data)
 df = df.rename(index = {0: "Values:"})
-st.dataframe(df.style.format("{:.2f}"), use_container_width=True)
+
+df_bold = df.rename(columns={
+    "Latitude": "**Latitude**",
+    "Longitude": "**Longitude**",
+    "Hour in Day" : "**Hour in Day**",
+    "Average Daily Temp (C)" : "**Avg Daily Temp**",
+    "Total Daily Prec (mL)" : "**Total Daily Prec**",
+    "Wind Speed (m/s)" : "**Wind Speed**",
+    "Veg Cover (%)" : "**Veg Cover**",
+    "Veg Height (cm)" : "**Veg Height**",
+}
+
+st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
