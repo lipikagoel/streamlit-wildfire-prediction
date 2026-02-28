@@ -29,7 +29,7 @@ lipika = "https://github.com/lipikagoel"
 
 st.write("Data from: Acquired from [California Landfire](%s)" % url1, ", [Meteostat](%s)" % url2, ", [NASA FIRMS](%s)" % url3)
 st.markdown("Predictions Made Through a [Random Forest Classifier Model](%s)" % url4)
-st.write("Data Team: Emiliano(%s)"emiliano, ", Arjun(%s)",arjun ", Will(%s)" will "| RCF Team: Aliya(%s)" aliya, ", Joseph(%s)" joseph "| Streamlit Team: Lipika(%s"lipika, ", Hayden")
+st.write(f"Data Team: [Emiliano]({emiliano}), [Arjun]({arjun}), [Will]({will}) | RCF Team: [Aliya]({aliya}), [Joseph]({joseph}) | Streamlit Team: [Lipika]({lipika}), Hayden")
 
 st.markdown("---")
 
