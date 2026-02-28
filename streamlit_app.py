@@ -66,6 +66,6 @@ df_bold = df.rename(columns={
     "Wind Speed (m/s)" : "**Wind Speed**",
     "Veg Cover (%)" : "**Veg Cover**",
     "Veg Height (cm)" : "**Veg Height**",
-}
+})
 
-st.dataframe(df.style.format("{:.2f}"), use_container_width=True) # for the table
+st.dataframe(df_bold, df.style.format("{:.2f}"), use_container_width=True) # for the table
