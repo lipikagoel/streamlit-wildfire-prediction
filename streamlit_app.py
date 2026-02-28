@@ -16,14 +16,14 @@ done
 
 Also for you to be able to deploy the app itself feel free to fork the repository and test it out on your own.
 """
-
 import streamlit as st
-import datetime
+import pandas as pd
 
 ## PAGE SETUP
-st.set_page_config(page_title="TEST California Cities Map")
-st.subheader("California Wildfire Prediction")
-st.markdown("Data from: `...`.")
+st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
+st.header("California Wildfire Prediction")
+st.markdown("Data from: Acquired from Meteostat, NASA Firms, LANDFIRE")
+
 
 ## SIDEBAR
 with st.sidebar:
@@ -31,20 +31,29 @@ with st.sidebar:
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
     latitude = st.slider("Latitude", 32.5, 42.0) # slider selection
     longitude = st.slider("Longitutde", -124.4, 114.1) # slider selection
-    acq_hour = st.slider("Time in the Day:", 0, 23, 12)
+    acq_hour = st.slider("Acquired Hour:", 0, 23, 12)
+    st.markdown("---")
     wx_tavg_c = st.number_input("Average Daily Temperature (C)", step=1, format="%d")
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mL)")
     wx_wspd_ms= st.number_input("Wind Speed (m/s)")
+    st.markdown("---")
     lf_evc= st.slider("Vegetation Cover (%)", 0, 100, 50)
     lf_evh= st.slider("Vegetation Height (cm)", 0, 1000, 100)
-    #evt_fuel_n= st.selectbox("Fuel Type", le.classes_) #this won't work until the joblib files are added to allow interaction with the model
-    st.markdown("---") # Add a horizontal rule
-    st.button("Apply Filters")
+    # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
+    #st.button("Apply Filters")
 
-# st.write(f"You selected: {fire} and {latitude}") # write what options have been selected (onto main page)
+data = {
+    "Lat": [latitude],
+    "Lon": [longitude],
+    "Hour in Day" : [acq_hour],
+    "Average Daily Temperature (C)" : [wx_tavg_c],
+    "Total Daily Precipitation (mL)" : [wx_prcp_mm],
+    "Wind Speed (m/s)" : [wx_wspd_ms],
+    "Vegetation Cover (%)" : [lf_evc],
+    "Vegetation Height (cm)" : [lf_evh],
+    # "Fuel Type" : [evt_fuel_n]
+}
 
-# selected_page = st.sidebar.radio('Go to', ['Page 1', 'Page 2', 'Page 3']) # single-select multiple choice
-
-# st.sidebar.header('Filters')
-
-# date_range = st.sidebar.date_input('Select Date Range')
+df = pd.DataFrame(data)
+df = df.rename(index = {0: "Values:"})
+st.table(df)
