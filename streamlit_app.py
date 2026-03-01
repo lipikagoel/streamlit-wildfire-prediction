@@ -2,10 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
+import sklearn
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.title("California Wildfire Prediction", anchor = "main title")
+st.write(f"Current Scikit-Learn Version: {sklearn.__version__}")
 
 if "version" not in st.session_state:
     st.session_state.version = 0
