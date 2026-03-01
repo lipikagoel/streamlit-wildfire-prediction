@@ -251,7 +251,9 @@ df = pd.DataFrame(data)
 
 df = df.rename(index={0: "Values:"})
 
-st.dataframe(df.style.format("{:.2f}"), width="stretch")  # for the table
+numeric_cols = df.select_dtypes(include="number").columns
+
+st.dataframe(df.style.format({c: "{:.2f}" for c in numeric_cols}))
 
 st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=4)
 
