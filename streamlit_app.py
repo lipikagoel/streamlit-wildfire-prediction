@@ -55,6 +55,9 @@ def make_prediction(input_data):
     # [1] gets the probability of class 1
 
     prob = model.predict_proba(input_df)[0][1]
+    st.write("Non-zero features:", input_df.loc[:, (input_df != 0).any()].to_dict())
+    st.write("Raw probability:", prob)
+    st.stop()
     return prob
 
 
