@@ -189,11 +189,7 @@ with st.sidebar:
     # ── Date ──────────────────────────────────────────────────────────────────
     st.subheader("Date")
     selected_date = st.date_input(
-        "Prediction Date",
-        value=datetime.date.today(),
-        min_value=datetime.date(2020, 1, 1),
-        max_value=datetime.date(2025, 12, 31),
-        key=f"date_{v}",
+        "Prediction Date", value=datetime.date.today(), key=f"date_{v}"
     )
     # month, day_of_year, year all derived from the single date picker
     pred_month = selected_date.month
