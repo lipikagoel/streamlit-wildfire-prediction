@@ -46,12 +46,6 @@ git clone --recurse-submodules https://github.com/hsamala688/streamlit-wildfire-
 cd streamlit-wildfire-prediction
 ```
 
-If you already cloned without submodules, run:
-
-```bash
-git submodule update --init --recursive
-```
-
 ### 2. Install dependencies
 
 ```bash
