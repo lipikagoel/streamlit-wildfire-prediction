@@ -56,12 +56,10 @@ def make_prediction(input_data):
 
     # predict_proba returns a 2D array of shape of [0] gets the first (and only) row,
     # [1] gets the probability of class 1
-    trained_on = set(feature_names)
+    trained_on = set(model.feature_names_in_)
     sending = set(input_df.columns)
-    missing = trained_on - sending
-    extra = sending - trained_on
-    print("MISSING FROM INPUT:", missing)
-    print("EXTRA IN INPUT:", extra)
+    st.write("MISSING FROM INPUT:", trained_on - sending)
+    st.write("EXTRA IN INPUT:", sending - trained_on)
 
     prob = model.predict_proba(input_df)[0][1]
     return prob
