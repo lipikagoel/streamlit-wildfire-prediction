@@ -32,7 +32,7 @@ def load_assets():
 
 model, feature_names, fuel_options = load_assets()
 
-"""
+
 # Prediction Function
 def make_prediction(input_data):
 
@@ -56,9 +56,9 @@ def make_prediction(input_data):
 
     prob = model.predict_proba(input_df)[0][1]
     return prob
+
+
 """
-
-
 def make_prediction(input_data):
     input_df = pd.DataFrame(0, index=[0], columns=feature_names)
 
@@ -77,7 +77,7 @@ def make_prediction(input_data):
 
     prob = model.predict_proba(input_df)[0][1]
     return prob
-
+"""
 
 # ── Session Reset Feature ─────────────────────────────────────────────────────────────
 if "version" not in st.session_state:
