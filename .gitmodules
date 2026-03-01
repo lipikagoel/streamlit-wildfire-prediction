@@ -1,0 +1,3 @@
+[submodule "model_assets"]
+	path = model_assets
+	url = https://github.com/hsamala688/CaliforniaWildfirePrediction.git
