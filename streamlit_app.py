@@ -13,9 +13,6 @@ st.set_page_config(page_title="TEST California Cities Map", layout="wide")
 # Asset Loading ─────────────────────────────────────────────────────────────
 @st.cache_resource
 def load_assets():
-    enc = joblib.load("model_assets/fuel_encoder.pkl")
-    st.write(type(enc))
-    st.write(enc)
     path = "model_assets"
     model = joblib.load(os.path.join(path, "wildfire_model.pkl"))
 
@@ -56,10 +53,6 @@ def make_prediction(input_data):
 
     # predict_proba returns a 2D array of shape of [0] gets the first (and only) row,
     # [1] gets the probability of class 1
-    trained_on = set(model.feature_names_in_)
-    sending = set(input_df.columns)
-    st.write("MISSING FROM INPUT:", trained_on - sending)
-    st.write("EXTRA IN INPUT:", sending - trained_on)
 
     prob = model.predict_proba(input_df)[0][1]
     return prob
