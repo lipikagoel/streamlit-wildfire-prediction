@@ -1,13 +1,38 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pydeck as pdk
-import sklearn
+import joblib
+import os
+import datetime
+
+@st.cache_resource
+def load_assets():
+    path = "model_assets"
+    model = joblib.load(os.path.join(path, "wildfire_model.pkl"))
+    fuel_columns = joblib.load(os.path.join(path, "fuel_encoder.pkl"))
+    all_features = joblib.load(os.path.join(path, "feature_names.pkl"))
+    fuel_options = [c.replace("EVT_FUEL_N_", "") for c in fuel_columns]
+    return model, all_features, fuel_options
+
+model, feature_names, fuel_options = load_assets()
+
+def make_prediction(input_data):
+    input_df = pd.DataFrame(0, index=[0], columns=feature_names)
+
+    for key, value in input_data.items():
+        if key in input_df.columns:
+            input_df[key] = value
+
+    selected_fuel_col = f"EVT_FUEL_N_{input_data['selected_fuel']}"
+    if selected_fuel_col in input_df.columns:
+        input_df[selected_fuel_col] = 1
+
+    prob = model.predict_proba(input_df)[0][1]
+    return prob
 
 ## PAGE SETUP
 st.set_page_config(page_title="TEST California Cities Map", layout = "wide")
 st.title("California Wildfire Prediction", anchor = "main title")
-st.write(f"Current Scikit-Learn Version: {sklearn.__version__}")
 
 if "version" not in st.session_state:
     st.session_state.version = 0
@@ -41,88 +66,108 @@ st.markdown("---")
 with st.sidebar:
     st.title("Adjust the Risk Factors:") # sidebar title
     #fire = st.selectbox("Fire:",["A","B","C"]) # I don't think we need this, we just a user to input the data
-    
-    latitude = st.slider("Latitude", 
+
+    latitude = st.slider("Latitude",
                          32.5, 42.0,
                          34.0689,
                          step = 0.01,
                          key=f"lat_{v}",
-                         format="%.2f" 
+                         format="%.2f"
                          #value=st.session_state.get("lat_input",34.0689),
                          ) # changed these so that they only have 2 decimal points
-    
-    longitude = st.slider("Longitutde", 
+
+    longitude = st.slider("Longitutde",
                           -124.4, -114.1,
                           -118.4452,
                           key=f"lon_{v}",
-                          step = 0.01, 
-                          format="%.2f") 
+                          step = 0.01,
+                          format="%.2f")
                           #value=st.session_state.get("lon_input",-118.4452),
                           #key = "lon_input") # changed these so that they only have 2 decimal points
-    
-    #acq_hour = st.slider("Acquired Hour:", 
+
+    #acq_hour = st.slider("Acquired Hour:",
                          #0, 23, 12,
                          #key=f"hour_{v}"
                          #)
-                         #value = st.session_state.get("hour_input", 12), 
+                         #value = st.session_state.get("hour_input", 12),
                          #key = "hour_input")
-    
+
     st.markdown("---")
-    
-    wx_tavg_c = st.number_input("Average Daily Temperature (C)", 
+
+    wx_tavg_c = st.number_input("Average Daily Temperature (C)",
                                 0,
                                 key=f"temp_{v}",
-                                step=1, 
-                                format="%d", 
+                                step=1,
+                                format="%d",
                                 )
-                                #value = st.session_state.get("temp_input", 12), 
+                                #value = st.session_state.get("temp_input", 12),
                                 #key = "temp_input")
-    
+
     wx_prcp_mm= st.number_input("Total Daily Precipitation (mm)",
                                 0.0,
                                 key=f"prec_{v}",
-                                step = 0.01, 
+                                step = 0.01,
                                 format="%.2f"
                                )
                                 #value = st.session_state.get("prec_input", 0.0),
                                 #key = "prec_input") # changed these so that they only have 2 decimal points
-    
-    wx_wspd_ms= st.number_input("Wind Speed (m/s)", 
+
+    wx_wspd_ms= st.number_input("Wind Speed (m/s)",
                                 0.0,
                                 key=f"wind_{v}",
-                                step = 0.01, 
+                                step = 0.01,
                                 format="%.2f",
                                 )
                                 #value = st.session_state.get("wind_input", 0.0),
                                 #key = "wind_input") # changed these so that they only have 2 decimal points
-    
+
     st.markdown("---")
-    lf_evc= st.slider("Vegetation Cover (%)", 
+    lf_evc= st.slider("Vegetation Cover (%)",
                       0, 100, 50,
                       key=f"cov_{v}")
                       #value = st.session_state.get("veg_cov_input", 50),
                       #key = "veg_cov_input")
-    
-    lf_evh= st.slider("Vegetation Height (cm)", 
+
+    lf_evh= st.slider("Vegetation Height (cm)",
                       0, 1000, 100,
                       key=f"hei_{v}")
                       #value = st.session_state.get("veg_hei_input", 100),
                       #key = "veg_hei_input")
 
-    
+
     st.markdown("---")
-    
-    # evt_fuel_n= st.selectbox("Fuel Type", le.classes_)
+
+    # Need to add several more selectors those being snow, existing vegetation cover, existing vegitation height,
+    # and a specific time
 
 col_btn1, col_btn2 = st.columns(2)
 
+input_dict{
+    "latitude": latitude,
+    "longitude": longitude,
+    "month": now.month,
+    "day_of_year": now.timetuple().tm_yday,
+    "year": now.year,
+    "wx_tavg_c": wx_tavg_c,
+    "wx_prcp_mm": wx_prcp_mm,
+    "wx_wspd_ms": wx_wspd_ms,
+    "snow": 0,
+    "lf_evc": lf_evc,
+    "lf_evh": lf_evh,
+    "selected_fuel": evt_fuel_n
+}
+
+
 with col_btn1:
+    if risk > 0.6:
+        st.success(f"High Risk: {risk:.2f}")
+    else:
     clicked = st.button("Predict", type="primary", width="stretch")
 
 with col_btn2:
     if st.button("Clear Values", width="stretch"):
         reset_all()
-    
+
 st.subheader("Specific Location Risk Assessment:")
 
 # DataFrame Setup
@@ -177,7 +222,7 @@ if st.button("Generate Statewide Heatmap", width="stretch"):
         longs = np.linspace(-124.4, -114.1)
         grid_points = [{"latitude": la, "longitude": lo} for la in lats for lo in longs]
         grid_df = pd.DataFrame(grid_points)
-    
+
         #grid_df[acq_hour] = acq_hour
         grid_df[wx_tavg_c] = wx_tavg_c
         grid_df[wx_prcp_mm] = wx_prcp_mm
@@ -187,5 +232,3 @@ if st.button("Generate Statewide Heatmap", width="stretch"):
 
         # Now still waiting for model once it is trained we can add the final part to this code
         # this parts goal is that taking the same model use it to predict overall state risk and create a map
-        
-        
