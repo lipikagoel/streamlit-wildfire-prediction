@@ -9,6 +9,9 @@ import streamlit as st
 ## PAGE SETUP ─────────────────────────────────────────────────────────────
 st.set_page_config(page_title="TEST California Cities Map", layout="wide")
 
+st.write(type(fuel_columns))
+st.write(fuel_columns)
+
 
 # Asset Loading ─────────────────────────────────────────────────────────────
 @st.cache_resource
