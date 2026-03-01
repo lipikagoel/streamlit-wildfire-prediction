@@ -9,13 +9,13 @@ import streamlit as st
 ## PAGE SETUP ─────────────────────────────────────────────────────────────
 st.set_page_config(page_title="TEST California Cities Map", layout="wide")
 
-st.write(type(fuel_columns))
-st.write(fuel_columns)
-
 
 # Asset Loading ─────────────────────────────────────────────────────────────
 @st.cache_resource
 def load_assets():
+    enc = joblib.load("model_assets/fuel_encoder.pkl")
+    st.write(type(enc))
+    st.write(enc)
     path = "model_assets"
     model = joblib.load(os.path.join(path, "wildfire_model.pkl"))
 
