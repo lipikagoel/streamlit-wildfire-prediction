@@ -32,7 +32,7 @@ def load_assets():
 
 model, feature_names, fuel_options = load_assets()
 
-
+"""
 # Prediction Function
 def make_prediction(input_data):
 
@@ -53,6 +53,27 @@ def make_prediction(input_data):
 
     # predict_proba returns a 2D array of shape of [0] gets the first (and only) row,
     # [1] gets the probability of class 1
+
+    prob = model.predict_proba(input_df)[0][1]
+    return prob
+"""
+
+
+def make_prediction(input_data):
+    input_df = pd.DataFrame(0, index=[0], columns=feature_names)
+
+    for key, value in input_data.items():
+        if key in input_df.columns:
+            input_df[key] = value
+
+    selected_fuel_col = f"EVT_FUEL_N_{input_data['selected_fuel']}"
+    if selected_fuel_col in input_df.columns:
+        input_df[selected_fuel_col] = 1
+
+    # debug — remove once working
+    st.write("MODEL EXPECTS:", list(model.feature_names_in_))
+    st.write("WE ARE SENDING:", list(input_df.columns))
+    st.stop()
 
     prob = model.predict_proba(input_df)[0][1]
     return prob
