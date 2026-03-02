@@ -325,15 +325,13 @@ new_height = int(new_width * aspect_ratio)
 arrow_resized = arrow.resize((new_width, new_height), Image.LANCZOS)
 
 rotated_arrow = arrow_resized.rotate(
-    -90+arrow_angle,
-    center=(arrow_resized.width / 2, arrow_resized.height / 2),
+    90+arrow_angle,
     resample=Image.BICUBIC,
     expand=True)
 
 combined = bg.copy()
 
 bg_w, bg_h = combined.size
-ar_w, ar_h = rotated_arrow.size
-position = ((bg_w-ar_w) // 2, bg_h // 2)
+position = (bg_w // 4, bg_h // 2)
 combined.paste(rotated_arrow, position, rotated_arrow)
 risk_col.image(combined.convert("RGB"), width="stretch")
