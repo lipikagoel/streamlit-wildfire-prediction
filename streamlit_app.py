@@ -6,6 +6,11 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+import folium
+from streamlit_folium import st_folium, folium_static
+import plotly.express as px
+from PIL import Image
+
 ## PAGE SETUP ─────────────────────────────────────────────────────────────
 st.set_page_config(page_title="TEST California Cities Map", layout="wide")
 
@@ -35,7 +40,6 @@ model, feature_names, fuel_options = load_assets()
 
 # Prediction Function
 def make_prediction(input_data):
-
     # start the dataframe filled in with 0s because model was trained on set number of columns
     # any column that is abset we have should be 0
     input_df = pd.DataFrame(0, index=[0], columns=feature_names)
@@ -55,12 +59,12 @@ def make_prediction(input_data):
     # [1] gets the probability of class 1
 
     prob = model.predict_proba(input_df)[0][1]
-    st.write("Non-zero features:", input_df.loc[:, (input_df != 0).any()].to_dict())
-    st.write("Raw probability:", prob)
-    st.stop()
+    # st.write("Non-zero features:", input_df.loc[:, (input_df != 0).any()].to_dict())
+    # st.write("Raw probability:", prob)
+    # st.stop()
     return prob
 
-st.write(fuel_options)
+# st.write(fuel_options)
 
 # ── Session Reset Feature ─────────────────────────────────────────────────────────────
 if "version" not in st.session_state:
@@ -118,7 +122,7 @@ with st.sidebar:
     )  # changed these so that they only have 2 decimal points
 
     longitude = st.slider(
-        "Longitutde",
+        "Longitude",
         -124.4,
         -114.1,
         -118.4452,
@@ -233,7 +237,9 @@ with col_btn2:
 
 if predict_clicked:
     with st.spinner("Running prediction..."):
+
         st.session_state.risk = make_prediction(input_dict)
+        print("___yada yada:", st.session_state.risk)
 
 # ── Dataframe Setup ────────────────────────────────────────────────────
 data = {
@@ -260,28 +266,74 @@ numeric_cols = df.select_dtypes(include="number").columns
 
 st.dataframe(df.style.format({c: "{:.2f}" for c in numeric_cols}))
 
-st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=4)
+# ── Map Setup ───────────────────────────────────────────────────────────────
+# st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=4)
 
+ca_lat = [32.5, 42.0]
+ca_long = [-124.4, -114.1]
+
+m = folium.Map(location=[np.average(ca_lat), np.average(ca_long)], 
+                 zoom_start=4.5, control_scale=True)      # use the mean latitude and longitude to center the map
+
+# loop through each row in the dataframe & add to map using latitude & longitude
+for i,row in df.iterrows():
+    # set up the content of the popup
+    iframe = folium.IFrame("Risk at (" + str(row["Lat"]) + ", " + str(row["Lon"]) + ") is " + str(int(make_prediction(input_dict)*100)) + "%.", width=300, height=25)
+
+    # initialize the popup using the iframe
+    popup = folium.Popup(iframe, max_width=500)
+
+    # add each row to the map with latitude & longitude
+    folium.Marker(location=[row['Lat'],row['Lon']],
+                  popup = popup).add_to(m)
+
+st_data = folium_static(m)
+
+fig = px.scatter_mapbox(df, lat="Lat", lon="Lon", zoom=4.5)
 
 # ── Risk result ───────────────────────────────────────────────────────────────
 risk = st.session_state.get("risk", 0.0)
 # print(np.percentile(y_prob, [25, 50, 70, 85, 95, 99]))-->
 # [0.29101556 0.62917867 0.83271943 0.87625205 0.901101   0.91034244]
-risk = st.session_state.get("risk", None)
+# risk = st.session_state.get("risk", None)
+
+arrow_angle = 0
 
 if risk is not None:
     if risk < 0.291:
         risk_label = "Very Low"
+        arrow_angle = -18*1
     elif risk < 0.629:
         risk_label = "Low"
+        arrow_angle = -18*3
     elif risk < 0.833:
         risk_label = "Moderate"
+        arrow_angle = -18*5
     elif risk < 0.876:
         risk_label = "High"
+        arrow_angle = -18*7
     else:
         risk_label = "Extreme"
+        arrow_angle = -18*9
 
     st.metric("Wildfire Risk", f"{risk:.1%}", delta=risk_label, delta_color="off")
 
-# ight everything should be good for you to finish up the map and adding in the national park risk thing
-# ran a quick print in the mlmodel to recalibrate our risk labeling to better fit with our models biases
+bg = Image.open("Fire_Danger_Rating.png").convert("RGBA")
+arrow = Image.open("arrow.png").convert("RGBA")
+
+scale_factor = 0.20
+new_width = int(bg.width * scale_factor)
+aspect_ratio = arrow.height / arrow.width
+new_height = int(new_width * aspect_ratio)
+arrow_resized = arrow.resize((new_width, new_height), Image.LANCZOS)
+
+print(arrow_angle)
+rotated_arrow = arrow_resized.rotate(-90+arrow_angle, resample=Image.BICUBIC, expand=True)
+
+combined = bg.copy()
+
+bg_w, bg_h = combined.size
+ar_w, ar_h = rotated_arrow.size
+position = ((bg_w - ar_w) // 3, 3*(bg_h - ar_h) // 4)
+combined.paste(rotated_arrow, position, rotated_arrow)
+st.image(combined.convert("RGB"))
