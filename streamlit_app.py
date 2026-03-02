@@ -207,7 +207,9 @@ with st.sidebar:
 
     st.markdown("---")
 
-col_btn1, col_btn2 = st.columns(2)
+    if st.button("Clear Values"):
+        reset_all()
+
 
 # ── Input Directory ────────────────────────────────────────────────────────────
 input_dict = {
@@ -225,21 +227,9 @@ input_dict = {
     "selected_fuel": evt_fuel_n,
 }
 
-# ── buttons ────────────────────────────────────────────────────────────
-col_btn1, col_btn2 = st.columns(2)
-
-with col_btn1:
-    predict_clicked = st.button("Predict Wildfire Risk", type="primary")
-
-with col_btn2:
-    if st.button("Clear Values"):
-        reset_all()
-
-if predict_clicked:
-    with st.spinner("Running prediction..."):
-
-        st.session_state.risk = make_prediction(input_dict)
-        print("___yada yada:", st.session_state.risk)
+# if predict_clicked:
+#     with st.spinner("Running prediction..."):
+#         st.session_state.risk = make_prediction(input_dict)
 
 # ── Dataframe Setup ────────────────────────────────────────────────────
 data = {
@@ -268,57 +258,64 @@ st.dataframe(df.style.format({c: "{:.2f}" for c in numeric_cols}))
 
 # ── Map Setup ───────────────────────────────────────────────────────────────
 # st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=4)
-
 ca_lat = [32.5, 42.0]
 ca_long = [-124.4, -114.1]
 
-m = folium.Map(location=[np.average(ca_lat), np.average(ca_long)], 
-                 zoom_start=4.5, control_scale=True)      # use the mean latitude and longitude to center the map
+map_col, risk_col = st.columns([0.7, 0.3])
 
-# loop through each row in the dataframe & add to map using latitude & longitude
-for i,row in df.iterrows():
-    # set up the content of the popup
-    iframe = folium.IFrame("Risk at (" + str(row["Lat"]) + ", " + str(row["Lon"]) + ") is " + str(int(make_prediction(input_dict)*100)) + "%.", width=300, height=25)
+with map_col:
+    m = folium.Map(location=[np.average(ca_lat), np.average(ca_long)], 
+                    zoom_start=4.5, control_scale=True)      # use the mean latitude and longitude to center the map
 
-    # initialize the popup using the iframe
-    popup = folium.Popup(iframe, max_width=500)
+    # loop through each row in the dataframe & add to map using latitude & longitude
+    for i,row in df.iterrows():
+        # set up the content of the popup
+        iframe = folium.IFrame("Risk at (" + str(row["Lat"]) + ", " + str(row["Lon"]) + ") is " + str(int(make_prediction(input_dict)*100)) + "%.", width=300, height=25)
 
-    # add each row to the map with latitude & longitude
-    folium.Marker(location=[row['Lat'],row['Lon']],
-                  popup = popup).add_to(m)
+        # initialize the popup using the iframe
+        popup = folium.Popup(iframe, max_width=500)
 
-st_data = folium_static(m)
+        # add each row to the map with latitude & longitude
+        folium.Marker(location=[row['Lat'],row['Lon']],
+                    popup = popup).add_to(m)
 
-fig = px.scatter_mapbox(df, lat="Lat", lon="Lon", zoom=4.5)
+    st_data = folium_static(m)
+    fig = px.scatter_map(df, lat="Lat", lon="Lon", zoom=4.5)
+
 
 # ── Risk result ───────────────────────────────────────────────────────────────
+st.session_state.risk = make_prediction(input_dict)
 risk = st.session_state.get("risk", 0.0)
-# print(np.percentile(y_prob, [25, 50, 70, 85, 95, 99]))-->
-# [0.29101556 0.62917867 0.83271943 0.87625205 0.901101   0.91034244]
-# risk = st.session_state.get("risk", None)
 
 arrow_angle = 0
+text_color = "green"
 
 if risk is not None:
     if risk < 0.291:
         risk_label = "Very Low"
         arrow_angle = -18*1
+        text_color = "green"
     elif risk < 0.629:
         risk_label = "Low"
         arrow_angle = -18*3
+        text_color = "blue"
     elif risk < 0.833:
         risk_label = "Moderate"
         arrow_angle = -18*5
+        text_color = "yellow"
     elif risk < 0.876:
         risk_label = "High"
         arrow_angle = -18*7
+        text_color = "orange"
     else:
         risk_label = "Extreme"
         arrow_angle = -18*9
+        text_color = "red"
 
-    st.metric("Wildfire Risk", f"{risk:.1%}", delta=risk_label, delta_color="off")
+    risk_col.header(f"Wildfire Risk:", text_alignment="center")
+    risk_col.subheader(f":{text_color}[{risk_label}]", text_alignment="center")
 
-bg = Image.open("Fire_Danger_Rating.png").convert("RGBA")
+bg = Image.open("wildfire_meter.png").convert("RGBA")
 arrow = Image.open("arrow.png").convert("RGBA")
 
 scale_factor = 0.20
@@ -327,13 +324,16 @@ aspect_ratio = arrow.height / arrow.width
 new_height = int(new_width * aspect_ratio)
 arrow_resized = arrow.resize((new_width, new_height), Image.LANCZOS)
 
-print(arrow_angle)
-rotated_arrow = arrow_resized.rotate(-90+arrow_angle, resample=Image.BICUBIC, expand=True)
+rotated_arrow = arrow_resized.rotate(
+    -90+arrow_angle,
+    center=(arrow_resized.width / 2, arrow_resized.height / 2),
+    resample=Image.BICUBIC,
+    expand=True)
 
 combined = bg.copy()
 
 bg_w, bg_h = combined.size
 ar_w, ar_h = rotated_arrow.size
-position = ((bg_w - ar_w) // 3, 3*(bg_h - ar_h) // 4)
+position = ((bg_w-ar_w) // 2, bg_h // 2)
 combined.paste(rotated_arrow, position, rotated_arrow)
-st.image(combined.convert("RGB"))
+risk_col.image(combined.convert("RGB"), width="stretch")
